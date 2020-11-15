@@ -442,7 +442,5 @@ public List<List<Integer>> permute(int[] nums) {
                 path.remove(path.size() - 1);
             }
         }
-
-
 ```
 
