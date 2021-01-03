@@ -236,7 +236,33 @@ day70
  1  3  -1  -3  5 [3  6  7]      7
 思路一：
 双端队列
-
+public int maxSlidingWindow(int[] nums, int k) {
+	if (k == 0 || nums.length == 0) return new int[0];
+	int[] result = new int[nums.length - k + 1];
+	// 初始化一个双端队列
+	ArrayDeque<Integer> indexDeque = new ArrayDeque<>();
+	// 从开始遍历，遇到大的放入，小的移除
+	for (int i = 0; i < k - 1; i++) {
+		while (!indexDeque.isEmpty() && nums[i] > nums[indexDeque.getLast()]) {
+			indexDeque.removeLast();
+		}
+		indexDeque.addLast(i);
+	}
+	
+	// 如果遇到数字比队列中最大值小，最小值大，那么将比它小的数字不可能成为最大值，删除较小的数字，放入该数字
+	for (int i = k - 1; i < nums.length; i++) {
+		while (!indexDeque.isEmpty() && nums[i] > nums[indexDeque.getLast()]) {
+			indexDeque.removeLast();
+		}
+		// 队列头部的数字如果其下标离滑动末尾的距离大于窗口大小，那么也删除队列头部的数字。
+		if (!indexDeque.isEmpty() && (i - indexDeque.getFirst()) >= k) {
+			indexDeque.removeFirst();
+		}
+		indexDeque.addLast(i);
+		result[i + 1 - k] = nums[indexDeque.getFirst()];
+	}
+	return result;
+}
 ```
 
 
