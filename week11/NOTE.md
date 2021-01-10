@@ -181,13 +181,7 @@ public ListNode partition(ListNode head, int x) {
 	bigTail.next = null;
 	return smallHead.next;
 }
-
-
 ```
-
-
-
-
 
 
 
